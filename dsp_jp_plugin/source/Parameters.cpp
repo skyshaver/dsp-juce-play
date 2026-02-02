@@ -1,10 +1,25 @@
 
 namespace dsp_jp {
-Parameters::Parameters(juce::AudioProcessor& processor)
-// TODO: create parameters
-// TODO: retrieve references to parameters
-// TODO: add parameters to the processor
-{
-  juce::ignoreUnused(processor);
-}
+	namespace {
+		auto& addParameterToProcessor(juce::AudioProcessor& processor, auto parameter) {
+			auto& result = *parameter;
+			processor.addParameter(parameter.release());
+			return result;
+		}
+	}
+
+	juce::AudioParameterFloat& createParameterOneParameter(
+		juce::AudioProcessor& processor) {
+		constexpr auto versionHint = 1;
+		return addParameterToProcessor(
+			processor,
+			std::make_unique<juce::AudioParameterFloat>(
+				juce::ParameterID{ "modulation.rate", versionHint }, "Modulation rate",
+				juce::NormalisableRange<float>{1.f, 100.f, 1.f},
+				1.f,
+				juce::AudioParameterFloatAttributes{}.withLabel("inc(1)")));
+	}
+	Parameters::Parameters(juce::AudioProcessor& processor) : parameterOne { createParameterOneParameter(processor) } {
+		// juce::ignoreUnused(processor);
+	}
 }  // namespace dsp_jp
