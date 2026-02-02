@@ -115,7 +115,7 @@ add_library(dsp_jp::dsp_jp_plugin_assets ALIAS dsp_jp_plugin_assets)
 juce_add_module(dsp_jp_plugin ALIAS_NAMESPACE dsp_jp)
 
 # Additional definitions required by all users of this module.
-target_compile_definitions(dsp_juce_plugin
+target_compile_definitions(dsp_jp_plugin
   INTERFACE
     DSPJP_PLUGIN_NAME="${DSPJP_PLUGIN_NAME}"
 )
