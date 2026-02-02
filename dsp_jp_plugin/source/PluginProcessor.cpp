@@ -1,144 +1,145 @@
 
 namespace dsp_jp {
-PluginProcessor::PluginProcessor()
-    : AudioProcessor(
-          BusesProperties()
-              .withInput("Input", juce::AudioChannelSet::stereo(), true)
-              .withOutput("Output", juce::AudioChannelSet::stereo(), true)) {}
+	PluginProcessor::PluginProcessor()
+		: AudioProcessor(
+			BusesProperties()
+			.withInput("Input", juce::AudioChannelSet::stereo(), true)
+			.withOutput("Output", juce::AudioChannelSet::stereo(), true)) {
+	}
 
-const juce::String PluginProcessor::getName() const {
-  return DSPJP_PLUGIN_NAME;
-}
+	const juce::String PluginProcessor::getName() const {
+		return DSPJP_PLUGIN_NAME;
+	}
 
-bool PluginProcessor::acceptsMidi() const {
-  return false;
-}
+	bool PluginProcessor::acceptsMidi() const {
+		return false;
+	}
 
-bool PluginProcessor::producesMidi() const {
-  return false;
-}
+	bool PluginProcessor::producesMidi() const {
+		return false;
+	}
 
-bool PluginProcessor::isMidiEffect() const {
-  return false;
-}
+	bool PluginProcessor::isMidiEffect() const {
+		return false;
+	}
 
-double PluginProcessor::getTailLengthSeconds() const {
-  return 0.0;
-}
+	double PluginProcessor::getTailLengthSeconds() const {
+		return 0.0;
+	}
 
-int PluginProcessor::getNumPrograms() {
-  // Some hosts don't cope very well if you tell them there are 0 programs, so
-  // this should be at least 1, even if you're not really implementing programs.
-  return 1;
-}
+	int PluginProcessor::getNumPrograms() {
+		// Some hosts don't cope very well if you tell them there are 0 programs, so
+		// this should be at least 1, even if you're not really implementing programs.
+		return 1;
+	}
 
-int PluginProcessor::getCurrentProgram() {
-  return 0;
-}
+	int PluginProcessor::getCurrentProgram() {
+		return 0;
+	}
 
-void PluginProcessor::setCurrentProgram(int index) {
-  juce::ignoreUnused(index);
-}
+	void PluginProcessor::setCurrentProgram(int index) {
+		juce::ignoreUnused(index);
+	}
 
-const juce::String PluginProcessor::getProgramName(int index) {
-  juce::ignoreUnused(index);
-  return {};
-}
+	const juce::String PluginProcessor::getProgramName(int index) {
+		juce::ignoreUnused(index);
+		return {};
+	}
 
-void PluginProcessor::changeProgramName(int index,
-                                        const juce::String& newName) {
-  juce::ignoreUnused(index, newName);
-}
+	void PluginProcessor::changeProgramName(int index,
+		const juce::String& newName) {
+		juce::ignoreUnused(index, newName);
+	}
 
-void PluginProcessor::prepareToPlay(double sampleRate,
-                                    int expectedMaxFramesPerBlock) {
-  // Use this method as the place to do any pre-playback
-  // initialization that you need, e.g., allocate memory.
+	void PluginProcessor::prepareToPlay(double sampleRate,
+		int expectedMaxFramesPerBlock) {
+		// Use this method as the place to do any pre-playback
+		// initialization that you need, e.g., allocate memory.
 
-  // tremolo.prepare(sampleRate, expectedMaxFramesPerBlock);
-}
+		dspjp.prepare(sampleRate, expectedMaxFramesPerBlock);
+	}
 
-void PluginProcessor::releaseResources() {
-  // When playback stops, you can use this as an opportunity to free up any
-  // spare memory, etc.
+	void PluginProcessor::releaseResources() {
+		// When playback stops, you can use this as an opportunity to free up any
+		// spare memory, etc.
 
-  // tremolo.reset();
-}
+		dspjp.reset();
+	}
 
-bool PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
-  // This is the place where you check if the layout is supported.
-  // In this template code we only support mono or stereo.
-  // Some plugin hosts, such as certain GarageBand versions, will only
-  // load plugins that support stereo bus layouts.
-  if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono() &&
-      layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo()) {
-    return false;
-  }
+	bool PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
+		// This is the place where you check if the layout is supported.
+		// In this template code we only support mono or stereo.
+		// Some plugin hosts, such as certain GarageBand versions, will only
+		// load plugins that support stereo bus layouts.
+		if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono() &&
+			layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo()) {
+			return false;
+		}
 
-  // This checks if the input layout matches the output layout
-  if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet()) {
-    return false;
-  }
+		// This checks if the input layout matches the output layout
+		if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet()) {
+			return false;
+		}
 
-  return true;
-}
+		return true;
+	}
 
-void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
-                                   juce::MidiBuffer& midiMessages) {
-  juce::ignoreUnused(midiMessages);
+	void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
+		juce::MidiBuffer& midiMessages) {
+		juce::ignoreUnused(midiMessages);
 
-  juce::ScopedNoDenormals noDenormals;
-  const auto totalNumInputChannels = getTotalNumInputChannels();
-  const auto totalNumOutputChannels = getTotalNumOutputChannels();
+		juce::ScopedNoDenormals noDenormals;
+		const auto totalNumInputChannels = getTotalNumInputChannels();
+		const auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-  // In case we have more outputs than inputs, this code clears any output
-  // channels that didn't contain input data, (because these aren't
-  // guaranteed to be empty - they may contain garbage).
-  // This is here to avoid people getting screaming feedback
-  // when they first compile a plugin, but obviously you don't need to keep
-  // this code if your algorithm always overwrites all the output channels.
-  for (const auto channelToClear :
-       std::views::iota(totalNumInputChannels, totalNumOutputChannels)) {
-    buffer.clear(channelToClear, 0, buffer.getNumSamples());
-  }
+		// In case we have more outputs than inputs, this code clears any output
+		// channels that didn't contain input data, (because these aren't
+		// guaranteed to be empty - they may contain garbage).
+		// This is here to avoid people getting screaming feedback
+		// when they first compile a plugin, but obviously you don't need to keep
+		// this code if your algorithm always overwrites all the output channels.
+		for (const auto channelToClear :
+			std::views::iota(totalNumInputChannels, totalNumOutputChannels)) {
+			buffer.clear(channelToClear, 0, buffer.getNumSamples());
+		}
 
-  // TODO: update parameters
-  // TODO: check for bypass
+		// TODO: update parameters
+		// TODO: check for bypass
 
-  // apply tremolo
-  // tremolo.process(buffer);
-}
+		// apply tremolo
+		dspjp.process(buffer);
+	}
 
-bool PluginProcessor::hasEditor() const {
-  return false;
-}
+	bool PluginProcessor::hasEditor() const {
+		return false;
+	}
 
-// This function will be called to create an instance of the editor
-juce::AudioProcessorEditor* PluginProcessor::createEditor() {
-  return nullptr;
-}
+	// This function will be called to create an instance of the editor
+	juce::AudioProcessorEditor* PluginProcessor::createEditor() {
+		return nullptr;
+	}
 
-void PluginProcessor::getStateInformation(juce::MemoryBlock& destData) {
-  // You should use this method to store your parameters in the memory block.
-  // You could do that either as raw data, or use the XML or ValueTree classes
-  // as intermediaries to make it easy to save and load complex data.
-  juce::ignoreUnused(destData);
+	void PluginProcessor::getStateInformation(juce::MemoryBlock& destData) {
+		// You should use this method to store your parameters in the memory block.
+		// You could do that either as raw data, or use the XML or ValueTree classes
+		// as intermediaries to make it easy to save and load complex data.
+		juce::ignoreUnused(destData);
 
-  // TODO: implement state serialization to JSON
-}
+		// TODO: implement state serialization to JSON
+	}
 
-void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
-  // You should use this method to restore your parameters from this memory
-  // block, whose contents will have been created by the getStateInformation()
-  // call.
-  juce::ignoreUnused(data, sizeInBytes);
+	void PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
+		// You should use this method to restore your parameters from this memory
+		// block, whose contents will have been created by the getStateInformation()
+		// call.
+		juce::ignoreUnused(data, sizeInBytes);
 
-  // TODO: implement state deserialization from JSON
-}
+		// TODO: implement state deserialization from JSON
+	}
 }  // namespace dsp_jp
 
 // This creates new instances of the plugin.
 // This function definition must be in the global namespace.
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-  return new dsp_jp::PluginProcessor();
+	return new dsp_jp::PluginProcessor();
 }
