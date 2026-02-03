@@ -7,6 +7,10 @@ public:
     juce::ignoreUnused(sampleRate, expectedMaxFramesPerBlock);
   }
 
+  void setParameterOne(float pOne) {
+      parameterOne = pOne;
+  }
+
   void process(juce::AudioBuffer<float>& buffer) noexcept {
   
       // for each frame
@@ -15,7 +19,7 @@ public:
       for (const auto channelIndex :
            std::views::iota(0, buffer.getNumChannels())) {      
         const auto inputSample = buffer.getSample(channelIndex, frameIndex);      
-        const auto outputSample = inputSample;      
+        const auto outputSample = inputSample * parameterOne;      
         buffer.setSample(channelIndex, frameIndex, outputSample);
       }
     }
@@ -24,6 +28,7 @@ public:
   void reset() noexcept {}
 
 private:
+    float parameterOne{ 1.f };
   
 };
 }  // namespace dsp_jp

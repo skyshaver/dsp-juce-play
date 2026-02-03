@@ -51,6 +51,11 @@ namespace dsp_jp {
 		juce::ignoreUnused(index, newName);
 	}
 
+	Parameters& PluginProcessor::getParameterRefs() noexcept
+	{
+		return parameters;
+	}
+
 	void PluginProcessor::prepareToPlay(double sampleRate,
 		int expectedMaxFramesPerBlock) {
 		// Use this method as the place to do any pre-playback
@@ -104,6 +109,7 @@ namespace dsp_jp {
 		}
 
 		// TODO: update parameters
+		dspjp.setParameterOne(parameters.parameterOne);
 		// TODO: check for bypass
 
 		// apply tremolo

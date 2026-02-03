@@ -1,7 +1,7 @@
 
 namespace dsp_jp {
 
-	PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p) {
+	PluginEditor::PluginEditor(PluginProcessor& p) : AudioProcessorEditor(&p), parameterOneAttachment{p.getParameterRefs().parameterOne, parameterOneSlider} {
 
 
 		background.setImage(juce::ImageCache::getFromMemory(assets::Background_png, assets::Background_pngSize));
@@ -13,13 +13,13 @@ namespace dsp_jp {
 		// editor's size to whatever you need it to be.
 		setSize(540, 270);
 
-		parameterOne.setSliderStyle(juce::Slider::LinearBarVertical);
-		parameterOne.setRange(0.f, 100.f, 1.f);
-		parameterOne.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 0);
-		parameterOne.setPopupDisplayEnabled(true, false, this);
-		parameterOne.setTextValueSuffix(" ParamOne");
-		parameterOne.setValue(1.f);
-		addAndMakeVisible(&parameterOne);
+		parameterOneSlider.setSliderStyle(juce::Slider::LinearBarVertical);
+		parameterOneSlider.setRange(0.f, 100.f, 1.f);
+		parameterOneSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 0);
+		parameterOneSlider.setPopupDisplayEnabled(true, false, this);
+		parameterOneSlider.setTextValueSuffix(" ParamOne");
+		parameterOneSlider.setValue(1.f);
+		addAndMakeVisible(&parameterOneSlider);
 
 		// listeners
 		// parameterOne.addListener(this);
@@ -31,7 +31,7 @@ namespace dsp_jp {
 	void PluginEditor::resized() {
 		const auto bounds = getLocalBounds();
 
-		parameterOne.setBounds(40, 30, 20, getHeight() - 60);
+		parameterOneSlider.setBounds(40, 30, 20, getHeight() - 60);
 		/*logo.setBounds({ 16, 16, 105, 24 });
 		background.setBounds(bounds);*/
 

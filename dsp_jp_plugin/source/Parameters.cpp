@@ -14,7 +14,7 @@ namespace dsp_jp {
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "modulation.rate", versionHint }, "Modulation rate",
+				juce::ParameterID{ "parameterOne.value", versionHint }, "Parameter One Value",
 				juce::NormalisableRange<float>{1.f, 100.f, 1.f},
 				1.f,
 				juce::AudioParameterFloatAttributes{}.withLabel("inc(1)")));

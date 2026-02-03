@@ -12,10 +12,11 @@ namespace dsp_jp {
 
 		// PluginProcessor& pluginProcessor;
 		// void sliderValueChanged(juce::Slider* slider) override;
-		juce::Slider parameterOne;
+		juce::Slider parameterOneSlider;
+		juce::SliderParameterAttachment parameterOneAttachment;
 
 		juce::ImageComponent background;
-		juce::ImageComponent logo;
+		juce::ImageComponent logo;	
 
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 	};
