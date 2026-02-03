@@ -14,11 +14,11 @@ namespace dsp_jp {
 		setSize(540, 270);
 
 		parameterOneSlider.setSliderStyle(juce::Slider::LinearBarVertical);
-		parameterOneSlider.setRange(0.f, 100.f, 1.f);
+		parameterOneSlider.setRange(0.01f, 1.f, 0.01f);
 		parameterOneSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 0);
 		parameterOneSlider.setPopupDisplayEnabled(true, false, this);
 		parameterOneSlider.setTextValueSuffix(" ParamOne");
-		parameterOneSlider.setValue(1.f);
+		parameterOneSlider.setValue(0.01f);
 		addAndMakeVisible(&parameterOneSlider);
 
 		// listeners

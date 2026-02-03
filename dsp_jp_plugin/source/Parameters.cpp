@@ -15,7 +15,7 @@ namespace dsp_jp {
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
 				juce::ParameterID{ "parameterOne.value", versionHint }, "Parameter One Value",
-				juce::NormalisableRange<float>{1.f, 100.f, 1.f},
+				juce::NormalisableRange<float>{0.01f, 1.f, 0.01f},
 				1.f,
 				juce::AudioParameterFloatAttributes{}.withLabel("inc(1)")));
 	}

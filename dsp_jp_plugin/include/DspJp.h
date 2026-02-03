@@ -28,7 +28,7 @@ public:
   void reset() noexcept {}
 
 private:
-    float parameterOne{ 1.f };
+    float parameterOne{ 0.01f };
   
 };
 }  // namespace dsp_jp
