@@ -14,7 +14,9 @@ namespace dsp_jp {
 		setSize(540, 270);
 
 		parameterOneSlider.setSliderStyle(juce::Slider::LinearBarVertical);
-		parameterOneSlider.setRange(0.01f, 1.f, 0.01f);
+		// don't need to manually add range as parameterAttachment sets range/interval
+		// parameterOneSlider.setRange(0.01f, 1.f, 0.01f);
+		// parameterOneSlider.setRange(p.getParameterRefs().parameterOne.range.start, p.getParameterRefs().parameterOne.range.end, p.getParameterRefs().parameterOne.range.interval);
 		parameterOneSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 0);
 		parameterOneSlider.setPopupDisplayEnabled(true, false, this);
 		parameterOneSlider.setTextValueSuffix(" ParamOne");
