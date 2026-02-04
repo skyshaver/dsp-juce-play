@@ -4,6 +4,7 @@ namespace dsp_jp {
 	struct Parameters {
 		explicit Parameters(juce::AudioProcessor&);
 
+		// parameter one is volume in db
 		juce::AudioParameterFloat& parameterOne;
 		
 		juce::AudioParameterFloat& parameterTwo;

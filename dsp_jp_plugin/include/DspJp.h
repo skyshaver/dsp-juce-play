@@ -8,7 +8,11 @@ public:
   }
 
   void setParameterOne(float pOne) {
-      parameterOne = pOne;
+      
+      // translate from dB to range [0.0, 1.0]
+      parameterOne = std::pow(10.f, pOne / 20.f);
+      
+      // DBG(parameterOne);
   }
 
   void process(juce::AudioBuffer<float>& buffer) noexcept {
