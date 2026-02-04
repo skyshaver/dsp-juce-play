@@ -31,6 +31,7 @@ namespace dsp_jp {
 				1.f,
 				juce::AudioParameterFloatAttributes{}.withLabel("inc(1)")));
 	}
+
 	Parameters::Parameters(juce::AudioProcessor& processor) : parameterOne { createParameterOneParameter(processor) }, parameterTwo{ createParameterTwoParameter(processor) } {
 		// juce::ignoreUnused(processor);
 	}

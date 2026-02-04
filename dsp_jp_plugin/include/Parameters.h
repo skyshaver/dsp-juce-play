@@ -3,8 +3,11 @@
 namespace dsp_jp {
 	struct Parameters {
 		explicit Parameters(juce::AudioProcessor&);
+
 		juce::AudioParameterFloat& parameterOne;
+		
 		juce::AudioParameterFloat& parameterTwo;
+		
 		// juce::AudioParameterBool& bypassed;
 		// juce::AudioParameterChoice& waveform;
 
