@@ -12,8 +12,11 @@ namespace dsp_jp {
 
 		void setParameterOne(float pOne) {
 			parameterOne = pOne;
-			for (auto& e : a1)
+			// omitting this loop makes a lpf??
+			for (auto& e : a0)
 				e = pOne;
+			for (auto& e : a1)
+				e = pOne - 1.f;
 		}
 
 		float applyHpf(float inputSample, int channelNum) {
