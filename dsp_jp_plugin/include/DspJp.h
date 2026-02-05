@@ -19,11 +19,9 @@ namespace dsp_jp {
 				e = pOne - 1.f;
 		}
 
-		float applyHpf(float inputSample, int channelNum) {
-			float xn = inputSample;
-			float xn_1 = z1[channelNum];
-			float yn = a0[channelNum] * xn + a1[channelNum] * xn_1;
-			z1[channelNum] = xn;
+		float applyHpf(float inputSample, int channelIndex) {
+			float yn = a0[channelIndex] * inputSample + a1[channelIndex] * z1[channelIndex];
+			z1[channelIndex] = inputSample;
 			return yn;
 		}
 
@@ -55,9 +53,9 @@ namespace dsp_jp {
 
 	private:
 		float parameterOne{ 0.01f };
-		std::vector<float> a0;
-		std::vector<float> a1;
-		std::vector<float> z1;
+		std::vector<float> a0;		// coeff (slider pos)
+		std::vector<float> a1;		// coeff - 1.f
+		std::vector<float> z1;		// last sample (n - 1)
 
 	};
 }  // namespace dsp_jp
