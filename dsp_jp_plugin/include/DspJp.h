@@ -11,6 +11,8 @@ public:
       
       // translate from dB to range [0.0, 1.0]
       parameterOne = std::pow(10.f, pOne / 20.f);
+      // can also use juce::Decibel
+      // parameterOne = juce::Decibels::decibelsToGain(pOne);
       
       // DBG(parameterOne);
   }
