@@ -21,8 +21,8 @@ namespace dsp_jp {
 		parameterOneSlider.setSliderStyle(juce::Slider::LinearBarVertical);
 		parameterOneSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 0);
 		parameterOneSlider.setPopupDisplayEnabled(true, false, this);
-		parameterOneSlider.setTextValueSuffix(" ParamOne");
-		parameterOneSlider.setValue(0.01f);
+		parameterOneSlider.setTextValueSuffix(" HPF Coeff");
+		parameterOneSlider.setValue(0.25f);
 		addAndMakeVisible(&parameterOneSlider);
 		
 		parameterTwoSlider.setSliderStyle(juce::Slider::LinearBarVertical);
