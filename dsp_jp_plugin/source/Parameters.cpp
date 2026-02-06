@@ -14,11 +14,11 @@ namespace dsp_jp {
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "parameterOne.value", versionHint }, "Parameter One Value",
-				juce::NormalisableRange<float>{0.01f, 1.f, 0.01f},
-				1.f,
+				juce::ParameterID{ "parameterOne.value", versionHint }, "Coeff a0",
+				juce::NormalisableRange<float>{0.0f, 0.49f, 0.01f},
+				0.25f,
 				juce::AudioParameterFloatAttributes{}.withLabel("inc(1)")));
-	
+
 	}
 	juce::AudioParameterFloat& createParameterTwoParameter(
 		juce::AudioProcessor& processor) {
@@ -26,9 +26,9 @@ namespace dsp_jp {
 		return addParameterToProcessor(
 			processor,
 			std::make_unique<juce::AudioParameterFloat>(
-				juce::ParameterID{ "parameterTwo.value", versionHint }, "Parameter Two Value",
-				juce::NormalisableRange<float>{0.01f, 1.f, 0.01f},
-				1.f,
+				juce::ParameterID{ "parameterTwo.value", versionHint }, "Coeff a1",
+				juce::NormalisableRange<float>{0.0f, 0.49f, 0.01f},
+				0.25f,
 				juce::AudioParameterFloatAttributes{}.withLabel("inc(1)")));
 	}
 

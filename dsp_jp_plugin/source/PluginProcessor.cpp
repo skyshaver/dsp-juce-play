@@ -61,7 +61,8 @@ namespace dsp_jp {
 		// Use this method as the place to do any pre-playback
 		// initialization that you need, e.g., allocate memory.
 
-		dspjp.prepare(sampleRate, expectedMaxFramesPerBlock);
+		// assume num of channels is 2, if it's less then the audio block will never iterate?
+		dspjp.prepare(sampleRate, expectedMaxFramesPerBlock, 2);
 	}
 
 	void PluginProcessor::releaseResources() {
