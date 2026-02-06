@@ -34,6 +34,12 @@ namespace dsp_jp {
 		* yn = ao_channel * input_sample + a1_channel * input_sample_-1
 		*/
 
+
+		/*
+		* a feed forward filter will be a linear phase filter if its coefficients are symmetrical aobut their center
+		* In this case (1, 1) is symmetrical, (.5, .5) is symmetrical, so is (-.25, 0, -.25)
+		
+		*/
 		void process(juce::AudioBuffer<float>& buffer) noexcept {
 
 			// for each frame
