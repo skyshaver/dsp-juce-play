@@ -6,17 +6,21 @@ namespace dsp_jp {
 		void prepare(double sampleRate, int expectedMaxFramesPerBlock, int numChannels) {
 			juce::ignoreUnused(sampleRate, expectedMaxFramesPerBlock);
 			a0.resize(numChannels, parameterOne);
-			a1.resize(numChannels, parameterOne - 1.f);
+			a1.resize(numChannels, parameterTwo);
 			z1.resize(numChannels, 0.f);
 		}
 
 		void setParameterOne(float pOne) {
-			parameterOne = pOne;
-			// omitting this loop makes a lpf??
+			parameterOne = pOne;			
 			for (auto& e : a0)
 				e = pOne;
+			
+		}
+
+		void setParameterTwo(float pTwo) {
+			parameterTwo = pTwo;
 			for (auto& e : a1)
-				e = pOne - 1.f;
+				e = pTwo;
 		}
 
 		float applyHpf(float inputSample, int channelIndex) {
@@ -58,7 +62,8 @@ namespace dsp_jp {
 		void reset() noexcept {}
 
 	private:
-		float parameterOne{ 0.01f };
+		float parameterOne{ 1.f };
+		float parameterTwo{ 0.f };
 		std::vector<float> a0;		// coeff (slider pos)
 		std::vector<float> a1;		// coeff - 1.f
 		std::vector<float> z1;		// last sample (n - 1)

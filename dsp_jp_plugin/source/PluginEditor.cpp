@@ -22,14 +22,14 @@ namespace dsp_jp {
 		parameterOneSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 0);
 		parameterOneSlider.setPopupDisplayEnabled(true, false, this);
 		parameterOneSlider.setTextValueSuffix(" Coeff ao");
-		parameterOneSlider.setValue(0.25f);
+		parameterOneSlider.setValue(1.f);
 		addAndMakeVisible(&parameterOneSlider);
 		
 		parameterTwoSlider.setSliderStyle(juce::Slider::LinearBarVertical);
 		parameterTwoSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 0);
 		parameterTwoSlider.setPopupDisplayEnabled(true, false, this);
 		parameterTwoSlider.setTextValueSuffix(" Coeff a1");
-		parameterTwoSlider.setValue(0.25f);
+		parameterTwoSlider.setValue(0.f);
 		addAndMakeVisible(&parameterTwoSlider);
 
 		// listeners

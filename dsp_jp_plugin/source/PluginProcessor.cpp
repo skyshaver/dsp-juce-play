@@ -111,6 +111,7 @@ namespace dsp_jp {
 
 		// TODO: update parameters
 		dspjp.setParameterOne(parameters.parameterOne);
+		dspjp.setParameterTwo(parameters.parameterTwo);
 		// TODO: check for bypass
 
 		// apply tremolo
