@@ -28,6 +28,10 @@ namespace dsp_jp {
 		* a feed forward filter will be a linear phase filter if its coefficients are symmetrical aobut their center
 		* In this case (1, 1) is symmetrical, (.5, .5) is symmetrical, so is (-.25, 0, -.25)
 		* z is the previous input sample in this case
+		* Operate by making some fs go to zero
+		* called "zero transmission" or "zero f"
+		* Don't blow up
+		* are called FIR (finite impulse response) filters because though they may be smeared they are always finite
 		*/
 		float applyFeedForwardFilter(float inputSample, int channelIndex) {
 			float yn = a0[channelIndex] * inputSample + a1[channelIndex] * z1[channelIndex];
@@ -40,6 +44,11 @@ namespace dsp_jp {
 		* y(n) = a_0x(n) - b_1y(n-1)
 		* z is the previous output sample
 		* b1 is a1, no need to relabel coeff sliders
+		* Operate by maing some fs go to infinity, in the case of a_0 = 1.0 and b_1 = 1.0 the Nyquist frequency went to infinity
+		* a_0 = 1 and b_1 = -1 DC or 0Hz
+		* this is called "pole of transmission" or a "pole f"
+		* will blow up (got unstable) with certain coeffs
+		* called IIR (infinite impulse response) filters because their impulse response can become infinte
 		*/
 		float applyFeedBackFilter(float inputSample, int channelIndex) {
 			float yn = a0[channelIndex] * inputSample - a1[channelIndex] * z1[channelIndex];
