@@ -24,8 +24,10 @@ namespace dsp_jp {
 		}
 
 		/*
+		* Feed Forward
 		* a feed forward filter will be a linear phase filter if its coefficients are symmetrical aobut their center
 		* In this case (1, 1) is symmetrical, (.5, .5) is symmetrical, so is (-.25, 0, -.25)
+		* z is the previous input sample in this case
 		*/
 		float applyFeedForwardFilter(float inputSample, int channelIndex) {
 			float yn = a0[channelIndex] * inputSample + a1[channelIndex] * z1[channelIndex];
@@ -34,19 +36,22 @@ namespace dsp_jp {
 		}
 
 		/* 
+		* Feed Back
 		* y(n) = a_0x(n) - b_1y(n-1)
+		* z is the previous output sample
+		* b1 is a1, no need to relabel coeff sliders
 		*/
 		float applyFeedBackFilter(float inputSample, int channelIndex) {
-
+			float yn = a0[channelIndex] * inputSample - a1[channelIndex] * z1[channelIndex];
+			z1[channelIndex] = yn;
+			return yn;
 		}
 
 		/*
 		* _ for subscript, ^ for superscript
 		* 0.0 <= a_1 <= 0.49, a_0 = a_1 - 1.0
-		* hpf difference equation
+		* feed forward difference equation
 		* y(n) = a_0x(n) + a_1x(n - 1) for each channel
-		* a1 is the slider value, a0 is the slider value - 1.0 (a1 - 1.0)
-		* yn = ao_channel * input_sample + a1_channel * input_sample_-1
 		*/
 
 
@@ -60,7 +65,7 @@ namespace dsp_jp {
 
 					const auto inputSample = buffer.getSample(channelIndex, frameIndex);
 					// const auto outputSample = inputSample * parameterOne;
-					const auto outputSample = applyFeedForwardFilter(inputSample, channelIndex);
+					const auto outputSample = applyFeedBackFilter(inputSample, channelIndex);
 					buffer.setSample(channelIndex, frameIndex, outputSample);
 				}
 			}
@@ -73,6 +78,7 @@ namespace dsp_jp {
 		float parameterTwo{ 0.f };
 		std::vector<float> a0;		// coeff (slider pos)
 		std::vector<float> a1;		// coeff - 1.f
+		std::vector<float> b1;		// 
 		std::vector<float> z1;		// last sample (n - 1)
 
 	};
