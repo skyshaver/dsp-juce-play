@@ -23,10 +23,21 @@ namespace dsp_jp {
 				e = pTwo;
 		}
 
-		float applyHpf(float inputSample, int channelIndex) {
+		/*
+		* a feed forward filter will be a linear phase filter if its coefficients are symmetrical aobut their center
+		* In this case (1, 1) is symmetrical, (.5, .5) is symmetrical, so is (-.25, 0, -.25)
+		*/
+		float applyFeedForwardFilter(float inputSample, int channelIndex) {
 			float yn = a0[channelIndex] * inputSample + a1[channelIndex] * z1[channelIndex];
 			z1[channelIndex] = inputSample;
 			return yn;
+		}
+
+		/* 
+		* y(n) = a_0x(n) - b_1y(n-1)
+		*/
+		float applyFeedBackFilter(float inputSample, int channelIndex) {
+
 		}
 
 		/*
@@ -39,11 +50,7 @@ namespace dsp_jp {
 		*/
 
 
-		/*
-		* a feed forward filter will be a linear phase filter if its coefficients are symmetrical aobut their center
-		* In this case (1, 1) is symmetrical, (.5, .5) is symmetrical, so is (-.25, 0, -.25)
-
-		*/
+		
 		void process(juce::AudioBuffer<float>& buffer) noexcept {
 
 			// for each frame
@@ -53,7 +60,7 @@ namespace dsp_jp {
 
 					const auto inputSample = buffer.getSample(channelIndex, frameIndex);
 					// const auto outputSample = inputSample * parameterOne;
-					const auto outputSample = applyHpf(inputSample, channelIndex);
+					const auto outputSample = applyFeedForwardFilter(inputSample, channelIndex);
 					buffer.setSample(channelIndex, frameIndex, outputSample);
 				}
 			}
