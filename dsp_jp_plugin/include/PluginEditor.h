@@ -15,6 +15,9 @@ namespace dsp_jp {
 		juce::Slider parameterOneSlider;
 		juce::SliderParameterAttachment parameterOneAttachment;
 
+		juce::Slider parameterTwoSlider;
+		juce::SliderParameterAttachment parameterTwoAttachment;
+
 		juce::ImageComponent background;
 		juce::ImageComponent logo;	
 
