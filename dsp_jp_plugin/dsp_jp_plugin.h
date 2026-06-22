@@ -44,6 +44,7 @@ END_JUCE_MODULE_DECLARATION
 #include "include/DspJp.h"
 #include "include/PluginProcessor.h"
 #include "include/PluginEditor.h"
+#include "include/Phaser.h"
 // #include "include/BypassTransitionSmoother.h"
 // #include "include/MessageOnClick.h"
 // #include "include/LfoVisualizer.h"
