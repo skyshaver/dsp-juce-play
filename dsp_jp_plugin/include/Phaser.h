@@ -22,21 +22,28 @@
 
 */
 
+#pragma once
+
 namespace dsp_jp {
+
     class Phaser {
+    
     public:
         Phaser()  //initialise to some useful defaults...
             : feedBack(.7f)
             , lfoPhase(0.f)
-            , depth(1.f)
+            , depth(.5f)
             , zm1(0.f)
         {
-            Range(440.f, 1600.f);
-            Rate(.5f);
+           
         }
 
         void Prepare(double sr, int expectedMaxFramesPerBlock) {
-            sampleRate = sr;
+            juce::ignoreUnused(expectedMaxFramesPerBlock);
+            sampleRate = static_cast<float>(sr);
+            // need sampleRate to be set to set these defaults
+            Range(440.f, 1600.f);
+            Rate(.5f);
         }
 
         void Range(float fMin, float fMax) { // Hz
@@ -88,6 +95,25 @@ namespace dsp_jp {
 
             return inSamp + y * depth;
         }
+
+        void process(juce::AudioBuffer<float>& buffer) noexcept {
+
+            // for each frame
+            for (const auto frameIndex : std::views::iota(0, buffer.getNumSamples())) {
+                // for each channel sample in the frame
+                for (const auto channelIndex :
+                    std::views::iota(0, buffer.getNumChannels())) {
+                    const auto inputSample = buffer.getSample(channelIndex, frameIndex);
+                    // DBG("output:" << Update(inputSample) << " input: " << inputSample);
+                    const auto outputSample = Update(inputSample);
+                    buffer.setSample(channelIndex, frameIndex, outputSample);
+                }
+            }
+        }
+
+        void reset() noexcept {}
+
+
     private:
         class AllPassDelay {
         public:

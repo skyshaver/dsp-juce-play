@@ -39,7 +39,8 @@ namespace dsp_jp {
 	private:
 		// TODO: add parameters
 
-		DspJp dspjp;
+		// DspJp dspjp;
+		Phaser phaser;
 		Parameters parameters{ *this };
 	
 

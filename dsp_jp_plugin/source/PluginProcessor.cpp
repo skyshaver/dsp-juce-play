@@ -61,14 +61,16 @@ namespace dsp_jp {
 		// Use this method as the place to do any pre-playback
 		// initialization that you need, e.g., allocate memory.
 
-		dspjp.prepare(sampleRate, expectedMaxFramesPerBlock);
+		// dspjp.prepare(sampleRate, expectedMaxFramesPerBlock);
+		phaser.Prepare(sampleRate, expectedMaxFramesPerBlock);
 	}
 
 	void PluginProcessor::releaseResources() {
 		// When playback stops, you can use this as an opportunity to free up any
 		// spare memory, etc.
 
-		dspjp.reset();
+		// dspjp.reset();
+		phaser.reset();
 	}
 
 	bool PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
@@ -109,11 +111,12 @@ namespace dsp_jp {
 		}
 
 		// TODO: update parameters
-		dspjp.setParameterOne(parameters.parameterOne);
+		// dspjp.setParameterOne(parameters.parameterOne);
 		// TODO: check for bypass
 
 		// apply tremolo
-		dspjp.process(buffer);
+		// dspjp.process(buffer);
+		phaser.process(buffer);
 	}
 
 	bool PluginProcessor::hasEditor() const {
