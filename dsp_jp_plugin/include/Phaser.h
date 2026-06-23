@@ -72,18 +72,16 @@ public:
         }
 
         //calculate output
-        float y = allPassDelays[0].Update(
-            allPassDelays[1].Update(
-                allPassDelays[2].Update(
-                    allPassDelays[3].Update(
-                        allPassDelays[4].Update(
-                            allPassDelays[5].Update(inSamp + zm1 * feedBack))))));
+        //float y = allPassDelays[0].Update(
+        //    allPassDelays[1].Update(
+        //        allPassDelays[2].Update(
+        //            allPassDelays[3].Update(
+        //                allPassDelays[4].Update(
+        //                    allPassDelays[5].Update(inSamp + zm1 * feedBack))))));
 
-        float test = 0.f;
-        for (auto& e : allPassDelays | std::views::reverse) {
-
-        }
-
+        // updated for readibility, needs testing see https://godbolt.org/z/P54ve5o51 for live test
+        auto y = std::accumulate(std::next(allPassDelays.rbegin()), allPassDelays.rend(),
+            allPassDelays.back().Update(inSamp + zm1 * feedBack), [](auto acc, auto& e) { return e.Update(acc); });
         zm1 = y;
 
         return inSamp + y * depth;
